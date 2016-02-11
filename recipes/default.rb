@@ -38,13 +38,13 @@ execute 'setcap cap_net_bind_service=+ep caddy' do
 end
 
 template '/etc/Caddyfile' do
-  variables ({ 'hosts' => node['caddy']['hosts'] })
+  variables('hosts' => node['caddy']['hosts'])
   notifies :restart, 'service[caddy]'
 end
 
 variables = ({
-  :command => 'caddy',
-  :options => "#{caddy_letsencrypt_arguments} -pidfile /var/run/caddy.pid -log /usr/local/caddy/caddy.log -conf /etc/Caddyfile"
+  command: 'caddy',
+  options: "#{caddy_letsencrypt_arguments} -pidfile /var/run/caddy.pid -log /usr/local/caddy/caddy.log -conf /etc/Caddyfile"
 })
 
 if %w(arch gentoo rhel fedora suse).include? node['platform_family']
@@ -72,5 +72,5 @@ end
 
 service 'caddy' do
   action [:enable, :start]
-  supports :status => true, :start => true, :stop => true, :restart => true
+  supports status: true, start: true, stop: true, restart: true
 end
