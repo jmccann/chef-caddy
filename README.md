@@ -55,7 +55,7 @@ Set your eMail to register with letsencryt for HTTPS Support
 {
   'localhost:80' => {
     'log' => 'localhost.log'
-  }
+  },
   'localhost:8080' => {
     'log' => 'localhost_alt.log'
   }
