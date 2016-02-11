@@ -1,0 +1,3 @@
+<% if @custom -%>
+<%= render 'custom_config.erb', :cookbook => 'caddy', :variables => { 'hosts' => @custom } %>
+<% end -%>

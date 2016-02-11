@@ -1,0 +1,16 @@
+<% @hosts.each do |host, directives| %>
+<%= host %> <% if directives %> {
+  <% directives.each do |directive, value| %>
+    <% if value.is_a? Hash %>
+  <%= directive %> {
+      <% value.each do |subdirective, value| %>
+    <%= subdirective %> <%= value %>
+      <% end %>
+  }
+    <% else %>
+  <%= directive %> <%= value %>
+    <% end %>
+  <% end %>
+}
+<% end %>
+<% end %>

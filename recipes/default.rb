@@ -20,7 +20,7 @@
 # Conventions
 # caddy install dir at /usr/local/caddy
 # log at /usr/local/caddy/caddy.log
-# Caddyfile at /etc/Caddyfile
+# Caddyfile at /etc/caddy/Caddyfile
 # pidfile at /var/run/caddy.pid
 
 ark 'caddy' do
@@ -37,40 +37,8 @@ execute 'setcap cap_net_bind_service=+ep caddy' do
   subscribes :run, 'ark[caddy]', :immediately
 end
 
-template '/etc/Caddyfile' do
-  variables('hosts' => node['caddy']['hosts'])
-  notifies :restart, 'service[caddy]'
-end
+directory node['caddy']['conf_dir']
 
-variables = ({
-  command: 'caddy',
-  options: "#{caddy_letsencrypt_arguments} -pidfile /var/run/caddy.pid -log /usr/local/caddy/caddy.log -conf /etc/Caddyfile"
-})
+include_recipe 'caddy::_sites_from_attributes'
 
-if %w(arch gentoo rhel fedora suse).include? node['platform_family']
-  # Systemd
-  template '/etc/system.d/caddy' do
-    source 'systemd.erb'
-    mode '0755'
-    variables variables
-  end
-elsif node['platform'] == 'ubuntu' && node['platform_version'] == '14.04'
-  # Upstart
-  template '/etc/init/caddy.conf' do
-    source 'upstart.erb'
-    mode '0644'
-    variables variables
-  end
-else
-  # SysV
-  template '/etc/init.d/caddy' do
-    source 'sysv.erb'
-    mode '0755'
-    variables variables
-  end
-end
-
-service 'caddy' do
-  action [:enable, :start]
-  supports status: true, start: true, stop: true, restart: true
-end
+include_recipe 'caddy::service'
