@@ -1,21 +1,14 @@
-caddy Cookbook
-==============
-
+# caddy Cookbook
 [![Cookbook Version](https://img.shields.io/cookbook/v/caddy.svg)](https://supermarket.chef.io/cookbooks/caddy)
 
 This cookbook installs and runs caddy webserver https://caddyserver.com
 
 
-Requirements
-------------
-
-#### cookbooks
+# Requirements
+## cookbooks
 - `ark`
 
-
-Attributes
-----------
-#### caddy::default
+# Attributes
 <table>
   <tr>
     <th>Key</th>
@@ -43,10 +36,6 @@ Attributes
   </tr>
 </table>
 
-Usage
------
-#### caddy::default
-
 ##### Set eMail - ['caddy']['email']
 Set your eMail to register with letsencryt for HTTPS Support
 
@@ -68,16 +57,43 @@ Add features to be downloaded, e.g.
 ['cors','git']
 ```
 
-
-then include `caddy` in your node's `run_list`:
+# Usage
+## Recipes
+#### caddy::default
+Include `caddy::default` in your node's `run_list`:
 
 ```json
 {
   "name":"my_node",
   "run_list": [
-    "recipe[caddy]"
+    "recipe[caddy::default]"
   ]
 }
+```
+
+#### caddy::service
+Recipe for managing caddy service.  Included in `caddy::default`.
+
+#### caddy::\_sites_from_attributes
+Helper recipe for declaring caddy_site using `node['caddy']['hosts']`.
+
+Eventually this should be deprecated in favor of defining sites directly with `caddy_site`.
+
+## Providers
+### caddy_site
+#### Parameters
+`custom` - Custom values for site(s) following the `node['caddy']['hosts']` syntax
+
+#### Example
+```ruby
+caddy_site 'websites' do
+  custom 'localhost:80' => {
+           'log' => 'localhost.log'
+         },
+         'localhost:8080' => {
+           'log' => 'localhost_alt.log'
+         }
+end
 ```
 
 Contributing
