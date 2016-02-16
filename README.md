@@ -5,6 +5,9 @@ This cookbook installs and runs caddy webserver https://caddyserver.com
 
 
 # Requirements
+
+Chef >= 12.0.0
+
 ## cookbooks
 - `ark`
 

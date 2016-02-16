@@ -1,3 +1,3 @@
-caddy_site 'attribute_driven' do
-  custom node['caddy']['hosts']
+caddy_site_custom 'attribute_driven' do
+  data node['caddy']['hosts']
 end

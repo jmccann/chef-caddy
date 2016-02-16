@@ -7,15 +7,11 @@ action :create do
     path "#{node['caddy']['conf_dir']}/sites.d"
   end
 
-  template "#{new_resource.name} site config" do
+  template "#{new_resource.name} subconfig" do
     cookbook 'caddy'
-    source 'site.erb'
+    source 'custom_config.erb'
     path "#{node['caddy']['conf_dir']}/sites.d/#{new_resource.name}.conf"
-    variables(
-      proxy: new_resource.proxy,
-      servers: new_resource.servers,
-      tls: new_resource.tls
-    )
+    variables data: new_resource.data
     owner 'root'
     group 'root'
     mode 0644

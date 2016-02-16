@@ -1,4 +1,4 @@
-<% @hosts.each do |host, directives| %>
+<% @data.each do |host, directives| %>
 <%= host %> <% if directives %> {
   <% directives.each do |directive, value| %>
     <% if value.is_a? Hash %>

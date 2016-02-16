@@ -8,7 +8,7 @@ require 'spec_helper'
 describe 'caddy::_sites_from_attributes' do
   context 'When all attributes are default, on an unspecified platform' do
     cached(:chef_run) do
-      runner = ChefSpec::ServerRunner.new(step_into: 'caddy_site')
+      runner = ChefSpec::ServerRunner.new(step_into: 'caddy_site_custom')
       runner.converge(described_recipe)
     end
 
@@ -22,7 +22,7 @@ describe 'caddy::_sites_from_attributes' do
 
     context "node['caddy']['hosts'] is populated" do
       cached(:chef_run) do
-        runner = ChefSpec::ServerRunner.new(step_into: 'caddy_site') do |node, _server|
+        runner = ChefSpec::ServerRunner.new(step_into: 'caddy_site_custom') do |node, _server|
           node.set['caddy']['hosts'] = {
             'localhost:80' => {
               'log' => 'localhost.log'
@@ -41,7 +41,7 @@ describe 'caddy::_sites_from_attributes' do
       end
 
       it 'creates subconfig with site entries' do
-        expect(chef_run).to create_template('attribute_driven site config').with(path: '/etc/caddy/sites.d/attribute_driven.conf')
+        expect(chef_run).to create_template('attribute_driven subconfig').with(path: '/etc/caddy/sites.d/attribute_driven.conf')
         expect(chef_run).to render_file('/etc/caddy/sites.d/attribute_driven.conf').with_content "localhost:80  {\n  log localhost.log\n}\nlocalhost:8080  {\n  log localhost_alt.log\n}"
       end
     end
