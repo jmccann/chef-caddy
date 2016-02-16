@@ -1,5 +1,5 @@
 action :create do
-  run_context.include_recipe 'caddy::service'
+  include_recipe 'caddy::service'
 
   directory "#{new_resource.name} sites.d directory" do
     path "#{node['caddy']['conf_dir']}/sites.d"
