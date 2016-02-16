@@ -1,5 +1,3 @@
-use_inline_resources
-
 action :create do
   run_context.include_recipe 'caddy::service'
 
@@ -7,7 +5,7 @@ action :create do
     path "#{node['caddy']['conf_dir']}/sites.d"
   end
 
-  template "#{new_resource.name} subconfig" do
+  t = template "#{new_resource.name} subconfig" do
     cookbook 'caddy'
     source 'custom_config.erb'
     path "#{node['caddy']['conf_dir']}/sites.d/#{new_resource.name}.conf"
@@ -17,9 +15,10 @@ action :create do
     mode 0644
     notifies :restart, 'service[caddy]', :delayed
   end
+  new_resource.updated_by_last_action(t.updated?)
 
   site_files = include_files
-  template "#{new_resource.name}: Caddyfile" do
+  t = template "#{new_resource.name}: Caddyfile" do
     cookbook 'caddy'
     source 'Caddyfile.erb'
     path "#{node['caddy']['conf_dir']}/Caddyfile"
@@ -29,6 +28,7 @@ action :create do
     variables(files: site_files)
     notifies :restart, 'service[caddy]', :delayed
   end
+  new_resource.updated_by_last_action(t.updated?)
 end
 
 private

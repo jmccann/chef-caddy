@@ -1,9 +1,9 @@
 ---
 driver:
   name: vagrant
-  network: 
-    - ["forwarded_port", {guest: 8080, host: 8080}] 
-    - ["forwarded_port", {guest: 80, host: 80}] 
+  network:
+    - ["forwarded_port", {guest: 8080, host: 8080}]
+    - ["forwarded_port", {guest: 80, host: 80}]
 
 provisioner:
   name: chef_solo
@@ -22,7 +22,7 @@ suites:
           - cors
           - git
         email: caddy@example.com
-        hosts: 
+        hosts:
           localhost:8080:
           localhost:
             log: localhost.log
