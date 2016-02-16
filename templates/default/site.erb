@@ -1,12 +1,12 @@
-<% @servers = [@servers] if @servers.is_a?(String) -%>
-<%= @servers.join(', ') %> {
-<% if @log -%>
-  log <%= @log %>
+<% @resource.servers = [@resource.servers] if @resource.servers.is_a?(String) -%>
+<%= @resource.servers.join(', ') %> {
+<% if @resource.log -%>
+  log <%= @resource.log %>
 <% end -%>
-<% if @proxy -%>
-<%= render('proxy.erb', cookbook: 'caddy', :variables => { proxy: @proxy }).gsub(/^/, '  ') %>
+<% if @resource.proxy -%>
+<%= render('proxy.erb', cookbook: 'caddy', :variables => { proxy: @resource.proxy }).gsub(/^/, '  ') %>
 <% end -%>
-<% if @tls -%>
-  tls <%= @tls %>
+<% if @resource.tls -%>
+  tls <%= @resource.tls %>
 <% end -%>
 }

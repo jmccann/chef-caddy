@@ -11,12 +11,7 @@ action :create do
     cookbook 'caddy'
     source 'site.erb'
     path "#{node['caddy']['conf_dir']}/sites.d/#{new_resource.name}.conf"
-    variables(
-      log: new_resource.log,
-      proxy: new_resource.proxy,
-      servers: new_resource.servers,
-      tls: new_resource.tls
-    )
+    variables resource: new_resource
     owner 'root'
     group 'root'
     mode 0644
