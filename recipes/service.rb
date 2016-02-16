@@ -1,7 +1,7 @@
-variables = ({
+variables = {
   command: '/usr/local/bin/caddy',
   options: "#{caddy_letsencrypt_arguments} -pidfile /var/run/caddy.pid -log /usr/local/caddy/caddy.log -conf #{node['caddy']['conf_dir']}/Caddyfile"
-})
+}
 
 if %w(arch gentoo rhel fedora suse).include? node['platform_family']
   # Systemd
