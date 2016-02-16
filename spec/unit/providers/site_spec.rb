@@ -22,11 +22,25 @@ describe 'test::site' do
       end
 
       it 'contains to' do
-        expect(chef_run).to render_file('/etc/caddy/sites.d/basic_proxy.conf').with_content(/^[ ]*proxy .* localhost:8000$/)
+        expect(chef_run).to render_file('/etc/caddy/sites.d/basic_proxy.conf').with_content(/^[ ]*proxy .* localhost:8000 localhost:8001$/)
       end
 
       it 'does not have extras' do
         expect(chef_run).not_to render_file('/etc/caddy/sites.d/basic_proxy.conf').with_content(/^[ ]*proxy .* {$/)
+      end
+    end
+
+    context 'proxy config with arg and block' do
+      it 'contains from arg' do
+        expect(chef_run).to render_file('/etc/caddy/sites.d/proxy_arg_block.conf').with_content 'proxy / '
+      end
+
+      it 'contains to arg' do
+        expect(chef_run).to render_file('/etc/caddy/sites.d/proxy_arg_block.conf').with_content(/^[ ]*proxy .* localhost:8000 localhost:8001 {$/)
+      end
+
+      it 'contains extras from block' do
+        expect(chef_run).to render_file('/etc/caddy/sites.d/proxy_arg_block.conf').with_content(/^[ ]*max_fails 10$/)
       end
     end
 
