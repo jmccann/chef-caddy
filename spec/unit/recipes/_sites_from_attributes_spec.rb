@@ -36,12 +36,12 @@ describe 'caddy::_sites_from_attributes' do
       end
 
       it 'creates Caddyfile with site entry' do
-        expect(chef_run).to create_template '/etc/caddy/Caddyfile'
+        expect(chef_run).to create_template('attribute_driven: Caddyfile').with(path: '/etc/caddy/Caddyfile')
         expect(chef_run).to render_file('/etc/caddy/Caddyfile').with_content 'import /etc/caddy/sites.d/attribute_driven.conf'
       end
 
-      it 'populates Caddyfile with site entries' do
-        expect(chef_run).to create_template '/etc/caddy/sites.d/attribute_driven.conf'
+      it 'creates subconfig with site entries' do
+        expect(chef_run).to create_template('attribute_driven site config').with(path: '/etc/caddy/sites.d/attribute_driven.conf')
         expect(chef_run).to render_file('/etc/caddy/sites.d/attribute_driven.conf').with_content "localhost:80  {\n  log localhost.log\n}\nlocalhost:8080  {\n  log localhost_alt.log\n}"
       end
     end

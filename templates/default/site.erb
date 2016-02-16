@@ -1,3 +1,13 @@
+<% if @servers -%>
+<%= @servers.join(', ') %> {
+<% if @tls -%>
+  tls <%= @tls %>
+<% end -%>
+<% if @proxy -%>
+<%= render('proxy.erb', cookbook: 'caddy', :variables => { proxy: @proxy }).gsub(/^/, '  ') %>
+<% end -%>
+}
+<% end -%>
 <% if @custom -%>
 <%= render 'custom_config.erb', :cookbook => 'caddy', :variables => { 'hosts' => @custom } %>
 <% end -%>

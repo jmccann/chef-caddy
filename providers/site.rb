@@ -3,13 +3,19 @@ use_inline_resources
 action :create do
   run_context.include_recipe 'caddy::service'
 
-  directory "#{node['caddy']['conf_dir']}/sites.d"
+  directory "#{new_resource.name} sites.d directory" do
+    path "#{node['caddy']['conf_dir']}/sites.d"
+  end
 
-  template "#{node['caddy']['conf_dir']}/sites.d/#{new_resource.name}.conf" do
+  template "#{new_resource.name} site config" do
     cookbook 'caddy'
     source 'site.erb'
+    path "#{node['caddy']['conf_dir']}/sites.d/#{new_resource.name}.conf"
     variables(
-      custom: new_resource.custom
+      custom: new_resource.custom,
+      proxy: new_resource.proxy,
+      servers: new_resource.servers,
+      tls: new_resource.tls
     )
     owner 'root'
     group 'root'
@@ -18,9 +24,10 @@ action :create do
   end
 
   site_files = include_files
-  template "#{node['caddy']['conf_dir']}/Caddyfile" do
+  template "#{new_resource.name}: Caddyfile" do
     cookbook 'caddy'
     source 'Caddyfile.erb'
+    path "#{node['caddy']['conf_dir']}/Caddyfile"
     owner 'root'
     group 'root'
     mode 0644

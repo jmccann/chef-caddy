@@ -4,6 +4,7 @@ AllCops:
     - 'metadata.rb'
     - 'Berksfile'
     - 'test/fixtures/cookbooks/**/*'
+    - 'spec/fixtures/**/*'
     - 'Thorfile'
 
 LineLength:
@@ -17,4 +18,3 @@ FileName:
 
 RegexpLiteral:
   Enabled: false
-

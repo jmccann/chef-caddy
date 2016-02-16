@@ -1,0 +1,27 @@
+<% @proxy.to = [@proxy.to] if @proxy.to.is_a?(String) -%>
+proxy <%= @proxy.from %> <%= @proxy.to.join(' ') %><% if @proxy.extras? -%> {
+<% if @proxy.policy -%>
+  policy <%= @proxy.policy %>
+<% end -%>
+<% if @proxy.fail_timeout -%>
+  fail_timeout <%= @proxy.fail_timeout %>
+<% end -%>
+<% if @proxy.max_fails -%>
+  max_fails <%= @proxy.max_fails %>
+<% end -%>
+<% if @proxy.health_check -%>
+  health_check <%= @proxy.health_check %>
+<% end -%>
+<% if @proxy.proxy_headers -%>
+<% @proxy.proxy_headers.each do |header| -%>
+  proxy_header <%= header %>
+<% end -%>
+<% end -%>
+<% if @proxy.without -%>
+  without <%= @proxy.without %>
+<% end -%>
+<% if @proxy.except -%>
+  except <%= @proxy.except %>
+<% end -%>
+}
+<% end -%>
