@@ -4,7 +4,7 @@ attribute :from, kind_of: String
 attribute :to, kind_of: [String, Array]
 attribute :policy, kind_of: String
 attribute :fail_timeout, kind_of: String
-attribute :max_fails, kind_of: String
+attribute :max_fails, kind_of: Integer
 attribute :health_check, kind_of: String
 attribute :proxy_headers, kind_of: [String, Array]
 attribute :without, kind_of: String
