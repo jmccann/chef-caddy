@@ -3,7 +3,6 @@
 
 This cookbook installs and runs caddy webserver https://caddyserver.com
 
-
 # Requirements
 
 Chef >= 12.0.0
@@ -90,7 +89,6 @@ Allow specifying a site definition with directives.
 * `servers` - Allow specifying multiple addresses/servers that utilize the same configuration.
 * `tls` - configures HTTPS connections. https://caddyserver.com/docs/tls
 * `proxy` - Specify proxy for site following the [`caddy_proxy`](#caddy_proxy) resource syntax
-* `custom` - Custom values for site(s) following the `node['caddy']['hosts']` syntax
 
 #### Example
 Basic definition
@@ -106,15 +104,23 @@ caddy_site 'dev_alt' do
 end
 ```
 
+### caddy_site_custom
+Allow specifying site(s) definition with a Hash.
+
+#### Parameters
+* `data` - Hash of values for site(s) following the `node['caddy']['hosts']` syntax
+
+#### Example
+
 Passing a data structure directly to the provider
 ```ruby
-caddy_site 'websites' do
-  custom 'localhost:80' => {
-           'log' => 'localhost.log'
-         },
-         'localhost:8080' => {
-           'log' => 'localhost_alt.log'
-         }
+caddy_site_custom 'websites' do
+  data('localhost:80' => {
+         'log' => 'localhost.log'
+       },
+       'localhost:8080' => {
+         'log' => 'localhost_alt.log'
+       })
 end
 ```
 
