@@ -2,7 +2,6 @@ actions :create
 default_action :create
 
 attribute :servers, kind_of: [String, Array]
-# attribute :proxy, kind_of: String
 attribute :tls, kind_of: String
 
 attribute :custom, kind_of: Hash
