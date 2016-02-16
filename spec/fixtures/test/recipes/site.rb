@@ -1,3 +1,7 @@
+caddy_site 'basic' do
+  log 'basic.log'
+end
+
 caddy_site 'basic_proxy' do
   servers ['http://test.com', 'https://test.com']
   tls '/etc/ssl/cert.pem /etc/ssl/key.pem'

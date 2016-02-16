@@ -1,4 +1,4 @@
-<% if @servers -%>
+<% @servers = [@servers] if @servers.is_a?(String) -%>
 <%= @servers.join(', ') %> {
 <% if @log -%>
   log <%= @log %>
@@ -10,4 +10,3 @@
   tls <%= @tls %>
 <% end -%>
 }
-<% end -%>

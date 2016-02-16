@@ -16,6 +16,16 @@ describe 'test::site' do
       chef_run # This should not raise an error
     end
 
+    context 'basic config' do
+      it 'contains server' do
+        expect(chef_run).to render_file('/etc/caddy/sites.d/basic.conf').with_content(/^basic {$/)
+      end
+
+      it 'contains log' do
+        expect(chef_run).to render_file('/etc/caddy/sites.d/basic.conf').with_content(/^  log basic.log$/)
+      end
+    end
+
     context 'basic proxy config' do
       it 'contains from' do
         expect(chef_run).to render_file('/etc/caddy/sites.d/basic_proxy.conf').with_content 'proxy / '
