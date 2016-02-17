@@ -51,7 +51,7 @@ stop)
             PID=`cat $PIDFILE`
             cd $DAEMON_PATH
         if [ -f $PIDFILE ]; then
-            kill -HUP $PID
+            kill $PID
             printf "%s\n" "Ok"
             rm -f $PIDFILE
         else
@@ -64,7 +64,18 @@ restart)
     $0 start
 ;;
 
+reload)
+        printf "%-50s" "Reloading $NAME"
+            PID=`cat $PIDFILE`
+            cd $DAEMON_PATH
+        if [ -f $PIDFILE ]; then
+            kill -HUP $PID
+            printf "%s\n" "Ok"
+        else
+            printf "%s\n" "pidfile not found"
+        fi
+
 *)
-        echo "Usage: $0 {status|start|stop|restart}"
+        echo "Usage: $0 {status|start|stop|restart|reload}"
         exit 1
 esac
